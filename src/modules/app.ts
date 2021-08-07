@@ -4,7 +4,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 type Point = [number, number];
 
-const size = 20;
+const size = 21;
 
 const initialState = {
   size,
@@ -19,8 +19,8 @@ const app = createSlice({
   initialState,
   reducers: {
     initializeMaze: (state) => {
-      state.maze = [...Array(size)].map(() =>
-        [...Array(size)].map(() => false),
+      state.maze = [...Array(state.size)].map(() =>
+        [...Array(state.size)].map(() => false),
       );
       state.nextDigStartPoints = [];
       state.start = false;

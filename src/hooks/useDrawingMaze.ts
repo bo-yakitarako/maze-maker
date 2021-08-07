@@ -1,16 +1,20 @@
 import { useEffect } from 'react';
+import { Point } from '../modules/app';
 import { BREAKPOINT } from '../modules/styleUtility';
 import { useMediaQuery } from './useMediaQuery';
 import { useShallowEqualSelector } from './useShallowEqualSelector';
 
 const useDrawingMaze = (canvas: HTMLCanvasElement) => {
-  const maze = useShallowEqualSelector(({ maze }) => maze);
+  const [maze, step, startPoints] = useShallowEqualSelector(
+    ({ maze, step, nextDigStartPoints }) => [maze, step, nextDigStartPoints],
+  );
 
   const { windowWidth } = useMediaQuery();
 
   useEffect(() => {
-    drawMaze(canvas, maze, windowWidth);
-  }, [canvas, maze, windowWidth]);
+    const visibleStarts = step === 'selectNextStartPoint';
+    drawMaze(canvas, maze, visibleStarts, startPoints, windowWidth);
+  }, [canvas, maze, step, windowWidth]);
 };
 
 export { useDrawingMaze, getCanvasWidth };
@@ -36,6 +40,8 @@ const getRawCanvasWidth = (windowWidth: number) => {
 const drawMaze = (
   canvas: HTMLCanvasElement,
   maze: boolean[][],
+  visibleStarts: boolean,
+  startPoints: Point[],
   windowWidth: number,
 ) => {
   if (canvas === null) {
@@ -57,4 +63,8 @@ const drawMaze = (
       fillRect(xIndex, yIndex);
     });
   });
+  if (visibleStarts) {
+    context.fillStyle = 'cyan';
+    startPoints.forEach(([x, y]) => fillRect(x, y));
+  }
 };

@@ -1,11 +1,16 @@
 import styled from 'styled-components';
+import { StylesProvider } from '@material-ui/core';
 import { MazeCanvas } from './MazeCanvas';
+import { Settings } from './Settings';
 
 const App: React.FC = () => {
   return (
-    <AppWrapper>
-      <MazeCanvas />
-    </AppWrapper>
+    <StylesProvider injectFirst>
+      <AppWrapper>
+        <MazeCanvas />
+        <Settings />
+      </AppWrapper>
+    </StylesProvider>
   );
 };
 

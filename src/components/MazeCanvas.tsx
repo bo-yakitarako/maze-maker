@@ -1,11 +1,14 @@
 import { useEffect, useRef } from 'react';
 import { useDispatch } from 'react-redux';
-import { displayStartPoints, finish } from '../actions/asyncActions';
+import {
+  displayStartPoints,
+  finish,
+  startMazeCreation,
+} from '../actions/asyncActions';
 import { useAppSelector } from '../hooks/useAppSelector';
 import { useDiggingMaze } from '../hooks/useDiggingMaze';
 import { getCanvasWidth, useDrawingMaze } from '../hooks/useDrawingMaze';
 import { useMediaQuery } from '../hooks/useMediaQuery';
-import { app } from '../modules/app';
 
 const MazeCanvas: React.FC = () => {
   const dispatch = useDispatch();
@@ -21,11 +24,10 @@ const MazeCanvas: React.FC = () => {
   const { dig } = useDiggingMaze();
 
   useEffect(() => {
-    dispatch(app.actions.initializeMaze());
-  }, []);
-
-  useEffect(() => {
     switch (step) {
+      case 'start':
+        dispatch(startMazeCreation());
+        break;
       case 'dig':
         dig();
         break;

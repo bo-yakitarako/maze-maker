@@ -1,5 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { Dispatch } from 'redux';
+import { digIntervals } from '../hooks/useSettings';
 import { app, Point } from '../modules/app';
 import { Store } from '../modules/store';
 
@@ -8,6 +9,14 @@ type Thunk = {
   state: Store;
 };
 
+const startMazeCreation = createAsyncThunk<void, void, Thunk>(
+  'startMazeCreation',
+  async (v, { dispatch }) => {
+    dispatch(app.actions.digStartPoint());
+    await sleep(1000);
+  },
+);
+
 type DiggingResult = {
   diggingPoints: Point[];
   diggableRoads: Point[];
@@ -15,11 +24,12 @@ type DiggingResult = {
 
 const startDigging = createAsyncThunk<Point[], DiggingResult, Thunk>(
   'startDigging',
-  async ({ diggingPoints, diggableRoads }, { dispatch }) => {
+  async ({ diggingPoints, diggableRoads }, { dispatch, getState }) => {
+    const { digIntervalIndex } = getState();
     // eslint-disable-next-line no-restricted-syntax
     for (const point of diggingPoints) {
       dispatch(app.actions.digPoint(point));
-      await sleep(10); // eslint-disable-line no-await-in-loop
+      await sleep(digIntervals[digIntervalIndex]); // eslint-disable-line no-await-in-loop
     }
     return diggableRoads;
   },
@@ -27,8 +37,9 @@ const startDigging = createAsyncThunk<Point[], DiggingResult, Thunk>(
 
 const displayStartPoints = createAsyncThunk<void, void, Thunk>(
   'displayStartPoints',
-  async () => {
-    await sleep(500);
+  async (v, { getState }) => {
+    const { digIntervalIndex } = getState();
+    await sleep(digIntervalIndex > 4 ? 500 : 900);
   },
 );
 
@@ -45,7 +56,7 @@ const finish = createAsyncThunk<void, void, Thunk>(
   },
 );
 
-export { startDigging, displayStartPoints, finish };
+export { startMazeCreation, startDigging, displayStartPoints, finish };
 
 const sleep = (time: number) =>
   new Promise<void>((resolve) => setTimeout(() => resolve(), time));

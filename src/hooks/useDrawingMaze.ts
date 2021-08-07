@@ -49,12 +49,13 @@ const drawMaze = (
   }
   const squareWidth = getSquareWidth(maze.length, windowWidth);
   const context = canvas.getContext('2d') as CanvasRenderingContext2D;
+  const hasEdge = maze.length < 40;
   const fillRect = (x: number, y: number) => {
     context.fillRect(
-      x * squareWidth + 1,
-      y * squareWidth + 1,
-      squareWidth - 2,
-      squareWidth - 2,
+      x * squareWidth + (hasEdge ? 1 : 0),
+      y * squareWidth + (hasEdge ? 1 : 0),
+      squareWidth - (hasEdge ? 2 : 0),
+      squareWidth - (hasEdge ? 2 : 0),
     );
   };
   maze.forEach((rowArray, yIndex) => {

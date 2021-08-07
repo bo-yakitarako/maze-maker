@@ -39,7 +39,7 @@ const displayStartPoints = createAsyncThunk<void, void, Thunk>(
   'displayStartPoints',
   async (v, { getState }) => {
     const { digIntervalIndex } = getState();
-    await sleep(digIntervalIndex > 4 ? 500 : 900);
+    await sleep(digIntervalIndex > 4 ? 500 : 1200);
   },
 );
 

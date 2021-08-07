@@ -1,0 +1,19 @@
+{
+	"folders": [
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"[html]": {
+			"editor.suggest.insertMode": "replace",
+			"editor.autoClosingBrackets": "always",
+			"gitlens.codeLens.scopes": [
+				"document"
+			],
+			"editor.formatOnSave": true,
+			"editor.formatOnSaveMode": "file",
+			"editor.defaultFormatter": "esbenp.prettier-vscode"
+		}
+	}
+}

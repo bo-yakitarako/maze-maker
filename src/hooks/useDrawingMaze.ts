@@ -45,20 +45,16 @@ const drawMaze = (
   const context = canvas.getContext('2d') as CanvasRenderingContext2D;
   const fillRect = (x: number, y: number) => {
     context.fillRect(
-      x * squareWidth,
-      y * squareWidth,
-      squareWidth,
-      squareWidth,
+      x * squareWidth + 1,
+      y * squareWidth + 1,
+      squareWidth - 2,
+      squareWidth - 2,
     );
   };
-  context.fillStyle = 'black';
-  context.fillRect(0, 0, canvas.width, canvas.height);
-  context.fillStyle = 'white';
   maze.forEach((rowArray, yIndex) => {
     rowArray.forEach((isLoad, xIndex) => {
-      if (isLoad) {
-        fillRect(xIndex, yIndex);
-      }
+      context.fillStyle = isLoad ? 'white' : 'black';
+      fillRect(xIndex, yIndex);
     });
   });
 };

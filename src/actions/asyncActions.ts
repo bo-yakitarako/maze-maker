@@ -35,11 +35,13 @@ const startDigging = createAsyncThunk<Point[], DiggingResult, Thunk>(
   },
 );
 
+const displayTimes = [2000, 1500, 1500, 1200, 1000, 500, 200, 0];
+
 const displayStartPoints = createAsyncThunk<void, void, Thunk>(
   'displayStartPoints',
   async (v, { getState }) => {
     const { digIntervalIndex } = getState();
-    await sleep(digIntervalIndex > 4 ? 500 : 1200);
+    await sleep(displayTimes[digIntervalIndex]);
   },
 );
 
